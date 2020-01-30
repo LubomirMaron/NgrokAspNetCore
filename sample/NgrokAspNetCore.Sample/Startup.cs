@@ -21,6 +21,7 @@ namespace NgrokAspNetCore.Sample
             // NgrokAspNetCore - Only change needed to this file, uses CORE 3 IHost (not IWebHost)
             services.AddNgrok( new NgrokOptions() { 
             } );
+			services.AddHostedService<NgrokHostedService>();
             services.AddControllersWithViews();
         }
 

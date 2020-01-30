@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -59,7 +60,11 @@ namespace NgrokAspNetCore
 			var options = services.GetRequiredService<NgrokOptions>();
 
 			// Set address automatically if not provided or invalid
-			var addresses = services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>().Addresses.ToArray();
+			var server = services.GetRequiredService<IServer>();
+			var config = services.GetRequiredService<IConfiguration>();
+			//var foo = DefaultAddress
+
+			var addresses = server?.Features.Get<IServerAddressesFeature>().Addresses.ToArray();
 			if (string.IsNullOrWhiteSpace(options.ApplicationHttpUrl) || !Uri.TryCreate(options.ApplicationHttpUrl, UriKind.Absolute, out Uri uri))
 			{
 				options.ApplicationHttpUrl = addresses.FirstOrDefault(a => a.StartsWith("http://")) ?? addresses.FirstOrDefault();
