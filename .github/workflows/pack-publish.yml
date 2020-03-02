@@ -1,0 +1,36 @@
+name: Pack and Publish
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100' # SDK Version to use.
+      env:
+      # TODO add semver
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - run: dotnet build src/Ngrok.AspNetCore
+    - name: Create the package
+      run: dotnet pack --configuration Release src/Ngrok.AspNetCore
+    - name: Publish the package to GPR
+      run: dotnet nuget push src/Ngrok.AspNetCore/bin/Release/*.nupkg
+
+    # Authticates packages to push to Azure Artifacts
+    - uses: actions/setup-dotnet@v1
+      with:
+        source-url: https://pkgs.dev.azure.com/<your-organization>/_packaging/<your-feed-name>/nuget/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.AZURE_DEVOPS_PAT}} # Note, create a secret with this name in Settings
+    - name: Publish the package to Azure Artifacts
+      run: dotnet nuget push src/Ngrok.AspNetCore/bin/Release/*.nupkg
+
+
+
+
+
+
