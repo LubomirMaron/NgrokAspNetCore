@@ -27,6 +27,6 @@ namespace Ngrok.AspNetCore
 		/// </summary>
 		public bool DownloadNgrok { get; set; } = true;
 
-		public int NgrokProcessStartTimeoutMs = 10000;
+		public int NgrokProcessStartTimeoutMs { get; set; } = 10000;
 	}
 }

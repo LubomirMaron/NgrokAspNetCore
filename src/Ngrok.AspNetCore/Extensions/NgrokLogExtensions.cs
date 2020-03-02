@@ -11,7 +11,8 @@ namespace Ngrok.AspNetCore.Extensions
 		public static Dictionary<string, string> ParseLogData(string input)
 		{
 			var result = new Dictionary<string, string>();
-			var stream = new StringReader(input);
+
+			using var stream = new StringReader(input);
 			int lastRead = 0;
 
 			while (lastRead > -1)

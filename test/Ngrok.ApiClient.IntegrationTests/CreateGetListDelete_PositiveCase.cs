@@ -9,17 +9,17 @@ namespace Ngrok.ApiClient.IntegrationTests
 	[Order(1)]
 	public class CreateGetListDelete_PositiveCase
 	{
-		public INgrokApiClient Client;
+		private INgrokApiClient _client;
 
 		public CreateGetListDelete_PositiveCase()
 		{
-			Client = new NgrokHttpClient(new HttpClient());
+			_client = new NgrokHttpClient(new HttpClient());
 		}
 
 		[Fact, Order(2)]
 		public async Task ListTunnelsAsync_Null()
 		{
-			var tunnels = await Client.ListTunnelsAsync();
+			var tunnels = await _client.ListTunnelsAsync();
 			Assert.True(true);
 		}
 
@@ -33,7 +33,7 @@ namespace Ngrok.ApiClient.IntegrationTests
 				Protocol = "http",
 				Address = "1234"
 			};
-			var response = await Client.StartTunnelAsync(tunnelRequest);
+			var response = await _client.StartTunnelAsync(tunnelRequest);
 
 			Assert.NotNull(response);
 		}
@@ -41,14 +41,14 @@ namespace Ngrok.ApiClient.IntegrationTests
 		[Fact, Order(4)]
 		public async Task GetTunnel()
 		{
-			var tunnels = await Client.GetTunnelAsync("Test_StartTunnel_Http");
+			var tunnels = await _client.GetTunnelAsync("Test_StartTunnel_Http");
 			Assert.True(true);
 		}
 
 		[Fact, Order(5)]
 		public async Task ListTunnelsAsync_Single()
 		{
-			var tunnels = await Client.ListTunnelsAsync();
+			var tunnels = await _client.ListTunnelsAsync();
 
 			Assert.NotNull(tunnels);
 			Assert.NotEmpty(tunnels);
@@ -57,21 +57,21 @@ namespace Ngrok.ApiClient.IntegrationTests
 		[Fact, Order(6)]
 		public async Task StopTunnel_Https()
 		{
-			await Client.StopTunnelAsync("Test_StartTunnel_Http");
+			await _client.StopTunnelAsync("Test_StartTunnel_Http");
 			Assert.True(true);
 		}
 
 		[Fact, Order(7)]
 		public async Task StopTunnel_Http()
 		{
-			await Client.StopTunnelAsync("Test_StartTunnel_Http (http)");
+			await _client.StopTunnelAsync("Test_StartTunnel_Http (http)");
 			Assert.True(true);
 		}
 
 		[Fact, Order(8)]
 		public async Task ListTunnelsAsync_Null2()
 		{
-			var tunnels = await Client.ListTunnelsAsync();
+			var tunnels = await _client.ListTunnelsAsync();
 			Assert.True(true);
 		}
 	}

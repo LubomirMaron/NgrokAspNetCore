@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ngrok.AspNetCore.Services
 {
-	public class NgrokProcessMgr
+	public class NgrokProcessMgr : IDisposable
 	{
 		private NgrokProcess _process;
 		private readonly ILogger<NgrokProcessMgr> _logger;
@@ -27,7 +27,6 @@ namespace Ngrok.AspNetCore.Services
 		public bool IsStarted { get; private set; }
 
 		public NgrokProcessMgr(
-			ILogger<NgrokProcessMgr> logger,
 			ILoggerFactory loggerFactory,
 			IApplicationLifetime lifetime,
 			NgrokOptions options,
@@ -89,6 +88,10 @@ namespace Ngrok.AspNetCore.Services
 			_processStartSemaphore.Release();
 		}
 
-
+		public void Dispose()
+		{
+			_loggerFactory.Dispose();
+			((IDisposable)_processStartSemaphore).Dispose();
+		}
 	}
 }

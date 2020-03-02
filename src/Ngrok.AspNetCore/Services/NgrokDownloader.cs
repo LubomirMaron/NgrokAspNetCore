@@ -88,7 +88,7 @@ namespace Ngrok.AspNetCore.Services
 		/// </summary>
 		/// <exception cref="NgrokUnsupportedException">Throws if platform not supported by Ngrok</exception>
 		/// <returns></returns>
-		public string GetDownloadPath()
+		public static string GetDownloadPath()
 		{
 			var architecture = RuntimeInformation.ProcessArchitecture;
 			const string cdn = "https://bin.equinox.io";

@@ -7,7 +7,7 @@ using System;
 namespace Ngrok.AspNetCore.Exceptions
 {
 	[Serializable]
-	internal class NgrokStartFailedException : Exception
+	public class NgrokStartFailedException : Exception
 	{
 		public NgrokStartFailedException() : base("Ngrok failed to start")
 		{
